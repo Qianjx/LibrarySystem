@@ -7,6 +7,7 @@
 #include <QTextEdit>
 #include <QLineEdit>
 #include <QBoxLayout>
+#include <QTableView>
 /*
 #include<QSqlDatabase>
 #include<QSqlQuery>
@@ -81,6 +82,17 @@ public:
     QPushButton* afunction_search_btn;
 
     QPushButton* afunction_show_all_btn;
+
+    QTableView* afunction_tableview;
+
+    QHBoxLayout* afunction_hblo_sub1;
+
+    QHBoxLayout* afunction_hblo_sub2;
+
+    QHBoxLayout* afunction_hblo_sub3;
+
+    QVBoxLayout* afunction_vblo_combine123;
+
 
     // 管理员界面UI
 
