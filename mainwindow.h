@@ -7,8 +7,14 @@
 #include <QTextEdit>
 #include <QLineEdit>
 #include <QBoxLayout>
-
-
+/*
+#include<QSqlDatabase>
+#include<QSqlQuery>
+#include<QtSql>
+#include<QSqlTableModel>
+#include<QSqlRelationalTableModel>
+#include<QSqlError>
+*/
 namespace Ui {
 class MainWindow;
 }
@@ -41,6 +47,49 @@ public:
     QVBoxLayout* ufunction_vblo_main;
 
     QHBoxLayout* ufunction_hblo_bottom;
+
+    //   以上是用户界面的UI
+
+    void goto_afunction_window(bool flag);
+
+    QWidget* afunction_window;
+
+    QTextEdit* afunction_warning_txtedit;
+
+    QLabel* afunction_borrow_lb;
+
+    QLabel* afunction_return_lb;
+
+    QLineEdit* afunction_borrow_le;
+
+    QLineEdit* afunction_return_le;
+
+    QPushButton* afunction_borrow_btn;
+
+    QPushButton* afunction_return_btn;
+
+    QVBoxLayout* afunction_vblo_main;
+
+    QHBoxLayout* afunction_hblo_bottom;
+
+    QPushButton* afunction_add_btn;
+
+    QPushButton* afunction_add_ok_btn;
+
+    QPushButton* afunction_delete_btn;
+
+    QPushButton* afunction_search_btn;
+
+    QPushButton* afunction_show_all_btn;
+
+    // 管理员界面UI
+
+
+    //bool MainWindow::createConnection();
+
+    // Qsqldatabase db；
+
+    // sql相关
 
     ~MainWindow();
 
