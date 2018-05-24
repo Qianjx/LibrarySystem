@@ -17,10 +17,10 @@
    <widget class="QPushButton" name="pushButton_2">
     <property name="geometry">
      <rect>
-      <x>230</x>
-      <y>120</y>
-      <width>101</width>
-      <height>23</height>
+      <x>40</x>
+      <y>140</y>
+      <width>111</width>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
@@ -30,8 +30,8 @@
    <widget class="QPushButton" name="pushButton">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>170</y>
+      <x>40</x>
+      <y>70</y>
       <width>109</width>
       <height>23</height>
      </rect>
@@ -43,8 +43,8 @@
    <widget class="QPushButton" name="pushButton_4">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>120</y>
+      <x>190</x>
+      <y>70</y>
       <width>109</width>
       <height>23</height>
      </rect>
@@ -56,14 +56,14 @@
    <widget class="QPushButton" name="pushButton_3">
     <property name="geometry">
      <rect>
-      <x>220</x>
-      <y>80</y>
-      <width>109</width>
-      <height>23</height>
+      <x>190</x>
+      <y>140</y>
+      <width>111</width>
+      <height>21</height>
      </rect>
     </property>
     <property name="text">
-     <string>访客登录</string>
+     <string>用户须知</string>
     </property>
    </widget>
   </widget>

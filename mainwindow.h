@@ -8,14 +8,15 @@
 #include <QLineEdit>
 #include <QBoxLayout>
 #include <QTableView>
-/*
+#include <QMessageBox>
+
 #include<QSqlDatabase>
 #include<QSqlQuery>
 #include<QtSql>
 #include<QSqlTableModel>
 #include<QSqlRelationalTableModel>
 #include<QSqlError>
-*/
+
 namespace Ui {
 class MainWindow;
 }
@@ -28,80 +29,33 @@ public:
     explicit MainWindow(QWidget *parent = 0);
 
     void goto_ufunction_window(bool flag);
-
-    QWidget* ufunction_window;
-
-    QTextEdit* ufunction_warning_txtedit;
-
-    QLabel* ufunction_borrow_lb;
-
-    QLabel* ufunction_return_lb;
-
-    QLineEdit* ufunction_borrow_le;
-
-    QLineEdit* ufunction_return_le;
-
-    QPushButton* ufunction_borrow_btn;
-
-    QPushButton* ufunction_return_btn;
-
-    QVBoxLayout* ufunction_vblo_main;
-
-    QHBoxLayout* ufunction_hblo_bottom;
-
-    //   以上是用户界面的UI
+    //用户界面函数
+    void user_login();
+    //用户登录函数
+    void ufunction_user_borrow();
+    //用户借书函数
+    void ufunction_user_return();
+    //用户还书函数
+    QTextEdit* ulogin_name_le,*u_login_pwd_le;
+    //用户登录用的密码和用户名
 
     void goto_afunction_window(bool flag);
+    // 管理员界面
+\
+    QSqlDatabase db;
 
-    QWidget* afunction_window;
+    QSqlTableModel* afunction_tablemodel;
 
-    QTextEdit* afunction_warning_txtedit;
-
-    QLabel* afunction_borrow_lb;
-
-    QLabel* afunction_return_lb;
-
-    QLineEdit* afunction_borrow_le;
-
-    QLineEdit* afunction_return_le;
-
-    QPushButton* afunction_borrow_btn;
-
-    QPushButton* afunction_return_btn;
-
-    QVBoxLayout* afunction_vblo_main;
-
-    QHBoxLayout* afunction_hblo_bottom;
-
-    QPushButton* afunction_add_btn;
-
-    QPushButton* afunction_add_ok_btn;
-
-    QPushButton* afunction_delete_btn;
-
-    QPushButton* afunction_search_btn;
-
-    QPushButton* afunction_show_all_btn;
-
-    QTableView* afunction_tableview;
-
-    QHBoxLayout* afunction_hblo_sub1;
-
-    QHBoxLayout* afunction_hblo_sub2;
-
-    QHBoxLayout* afunction_hblo_sub3;
-
-    QVBoxLayout* afunction_vblo_combine123;
-
-
-    // 管理员界面UI
-
-
-    //bool MainWindow::createConnection();
-
-    // Qsqldatabase db；
-
+    bool createConnection();
     // sql相关
+
+    void user_register();
+    //用户注册函数
+    QLineEdit* register_name_le,* register_pwd_le,*register_pwd_check_le;
+    // 用户注册相关参数
+
+    void on_notice_btn_clicked();
+    //用户须知界面
 
     ~MainWindow();
 
