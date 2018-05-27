@@ -9,6 +9,7 @@
 #include <QBoxLayout>
 #include <QTableView>
 #include <QMessageBox>
+#include <QString>
 
 #include<QSqlDatabase>
 #include<QSqlQuery>
@@ -28,16 +29,25 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
 
-    void goto_ufunction_window(bool flag);
-    //用户界面函数
+
     void user_login();
     //用户登录函数
     void ufunction_user_borrow();
     //用户借书函数
     void ufunction_user_return();
     //用户还书函数
-    QTextEdit* ulogin_name_le,*u_login_pwd_le;
+    void goto_ufunction_window(bool flag);
+    //用户界面函数
+    void on_query_btn_clicked();
+    //查询函数
+    QLineEdit* ulogin_name_le,*ulogin_pwd_le;
+    QWidget* ulogin_window;
     //用户登录用的密码和用户名
+    QLineEdit* ufunction_borrow_le;
+    QLineEdit* ufunction_return_le;
+    int user_borrow_id_int;
+    QString user_borrow_id;
+
 
     void goto_afunction_window(bool flag);
     // 管理员界面

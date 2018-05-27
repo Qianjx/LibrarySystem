@@ -8,7 +8,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
+    createConnection();
+    user_borrow_id_int=1;
 }
 
 MainWindow::~MainWindow()
@@ -16,8 +17,42 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-//用户界面
+void MainWindow::ufunction_user_return(){
 
+QSqlQuery query;
+
+bool return_ok_flag=0;
+
+query.exec("select loan_id,book_id from loan where book_id='"+ufunction_return_le->text()+"'");
+
+if(!query.isActive()){
+
+return;
+
+}
+
+if(query.next()){
+
+    QString loan_id=query.value(0).toString();
+
+    QString book_id=query.value(1).toString();
+
+    if(QString::compare(book_id,ufunction_return_le->text())==0){
+
+    return_ok_flag=1;
+
+    query.exec("update book set storage=storage+1 where book_id='"+ufunction_return_le->text()+"'");
+
+    query.exec("deletefromloanwhereloan_id='"+loan_id+"'");
+
+    //QMessageBox::about(NULL,tr("数据库反馈"),tr("归还成功，感谢您的使用"));
+    QMessageBox::about(0,tr("feedback from database"),tr("return successful"));
+
+    }
+
+    }
+}
+//用户还书函数
 void MainWindow::goto_ufunction_window(bool flag){
 
 if(flag==0)
@@ -113,8 +148,7 @@ connect(ufunction_return_btn,SIGNAL(clicked()),this,SLOT(ufunction_user_return()
 }
 
 }
-
-
+//用户界面
 void MainWindow::goto_afunction_window(bool flag){
 
 if(flag==0)
@@ -289,19 +323,17 @@ connect(afunction_show_loan_btn,SIGNAL(clicked()),this,SLOT(afunction_show_loan(
 }
 
 }
-
-/*
+//管理员界面
 void MainWindow::on_query_btn_clicked(){
-
+/*
 QString book_name=ui->name_lineEdit->text();
 
 model->setFilter(QString("book_name='%1'").arg(book_name));
 
 model->select();
-
-}
 */
-
+}
+//查询图书
 void MainWindow::on_notice_btn_clicked(){
 
 QWidget* notice_window=new QWidget();
@@ -389,7 +421,7 @@ notice_window->resize(800,600);
 notice_window->show();
 
 }
-
+//注意事项
 void MainWindow::user_register(){
 
 //检测用户是否输入了全部的信息
@@ -448,8 +480,7 @@ return;
 }
 
 }
-
-
+//用户注册
 void MainWindow::user_login(){
 
 bool user_login_success_flag=0;//一开始设为零表示登录不成功
@@ -494,7 +525,7 @@ return;
 
 else{
 
-QMessageBox::critical(NULL,"Error","该用户名不存在",QMessageBox::Yes);
+QMessageBox::critical(NULL,"Error","用户名不存在",QMessageBox::Yes);
 
 return;
 
@@ -503,9 +534,7 @@ return;
 goto_ufunction_window(user_login_success_flag);//去到用户界面
 
 }
-
-
-
+//用户登录函数
 void MainWindow::ufunction_user_borrow(){
 
 //先检查这本书有没有被当前用户借过
@@ -564,89 +593,40 @@ user_borrow_id=QString::number(user_borrow_id_int,10);
 
 query.exec("insert into loan values('"+user_borrow_id+"','"+book_id+"','"+book_name+"','"+ulogin_name_le->text()+"')");
 
-QMessageBox::about(0,tr("数据库反馈"),tr("借书成功！"));
-
+//QMessageBox::about(NULL,tr("数据库反馈"),tr("借书成功"));
+QMessageBox::about(0,tr("feedback from database"),tr("loan success"));
 }
 
 }
 
 else{
-
 QMessageBox::critical(NULL,"Error","借阅失败，请检查您的拼写！",QMessageBox::Yes);
 
 }
 
 }
 //用户借书函数
-void MainWindow::ufunction_user_return(){
-
-QSqlQuery query;
-
-bool return_ok_flag=0;
-
-query.exec("select loan_id,book_id from loan where book_id='"+ufunction_return_le->text()+"'");
-
-if(!query.isActive()){
-
-return;
-
-}
-
-if(query.next()){
-
-    QString loan_id=query.value(0).toString();
-
-    QString book_id=query.value(1).toString();
-
-    if(QString::compare(book_id,ufunction_return_le->text())==0){
-
-    return_ok_flag=1;
-
-    query.exec("update book set storage=storage+1 where book_id='"+ufunction_return_le->text()+"'");
-
-    query.exec("deletefromloanwhereloan_id='"+loan_id+"'");
-
-    QMessageBox::about(0,tr("数据库反馈"),tr("归还成功，感谢您的使用！"));
-
-    }
-
-    }
-}
-//用户还书函数
 bool MainWindow::createConnection()
 {
-
 //连接MySQL数据库
-
-db=QSqlDatabase::addDatabase("QMYSQL");
-
+db=QSqlDatabase::addDatabase("Local instance MYSQL Router");
 //设置主机名
-
 db.setHostName("localhost");
-
 //设置数据库名
-
-db.setDatabaseName("mybms");
-
+db.setDatabaseName("sakila");
 //设置账号名
-
-db.setUserName("xxx");
-
+db.setUserName("root");
 //设置密码名
-
-db.setPassword("csdbs");
-
+db.setPassword("123456");
 //设置端口
-
 db.setPort(3306);
 
-if(!db.open()){
-
-QMessageBox::critical(0,QObject::tr("error"),db.lastError().text());
-
+if(!db.open())
+{
+QMessageBox::critical(0,QObject::tr("errrrorr"),db.lastError().text());
 return false;
 
 }
-
+return true;
 }
-
+//创建mysql连接
