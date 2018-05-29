@@ -659,15 +659,15 @@ if(query.next()){
 bool MainWindow::createConnection()
 {
 //连接MySQL数据库
-db=QSqlDatabase::addDatabase("QODBC");
+db=QSqlDatabase::addDatabase("QMYSQL");
 //设置主机名
 db.setHostName("localhost");
 //设置数据库名
-db.setDatabaseName("mysql");
+db.setDatabaseName("mybms");
 //设置账号名
 db.setUserName("root");
 //设置密码名
-db.setPassword("123456");
+db.setPassword("740832Qjx");
 //设置端口
 db.setPort(3306);
 
