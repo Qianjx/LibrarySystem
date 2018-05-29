@@ -9,7 +9,11 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     createConnection();
-    user_borrow_id_int=1;
+    user_borrow_id_int=0;
+    user_borrow_id='0';
+
+    model=new QSqlTableModel(this);
+    model->setTable("book");
 }
 
 MainWindow::~MainWindow()
@@ -17,42 +21,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::ufunction_user_return(){
 
-QSqlQuery query;
-
-bool return_ok_flag=0;
-
-query.exec("select loan_id,book_id from loan where book_id='"+ufunction_return_le->text()+"'");
-
-if(!query.isActive()){
-
-return;
-
-}
-
-if(query.next()){
-
-    QString loan_id=query.value(0).toString();
-
-    QString book_id=query.value(1).toString();
-
-    if(QString::compare(book_id,ufunction_return_le->text())==0){
-
-    return_ok_flag=1;
-
-    query.exec("update book set storage=storage+1 where book_id='"+ufunction_return_le->text()+"'");
-
-    query.exec("deletefromloanwhereloan_id='"+loan_id+"'");
-
-    //QMessageBox::about(NULL,tr("数据库反馈"),tr("归还成功，感谢您的使用"));
-    QMessageBox::about(0,tr("feedback from database"),tr("return successful"));
-
-    }
-
-    }
-}
-//用户还书函数
 void MainWindow::goto_ufunction_window(bool flag){
 
 if(flag==0)
@@ -325,15 +294,15 @@ connect(afunction_show_loan_btn,SIGNAL(clicked()),this,SLOT(afunction_show_loan(
 }
 //管理员界面
 void MainWindow::on_query_btn_clicked(){
-/*
-QString book_name=ui->name_lineEdit->text();
 
-model->setFilter(QString("book_name='%1'").arg(book_name));
+//QString book_name=ui->->text();
+
+//model->setFilter(QString("book_name='%1'").arg(book_name));
 
 model->select();
-*/
+
 }
-//查询图书
+//点击查询按钮
 void MainWindow::on_notice_btn_clicked(){
 
 QWidget* notice_window=new QWidget();
@@ -360,13 +329,23 @@ QFont font_head("MicrosoftYaHei",15,75);
 
 notice_head->setFont(font_head);
 
-notice_line1->setText(tr("1.。。。\n"));
+/*
+尊敬的用户欢迎您使用图书管理系统
+1.使用本系统前请先到图书馆前台办理借书证并缴纳押金
+2.借书证只限本人使用，不得转让、外借，一经发现将被取消借书资格并不再归还押金
+3.每次借书数量不限，但是相同的书只能借一本
+4.借书有效期限是30天，从结束当天开始计算
+5.如果逾期不还，您将被取消结束资格并没收押金
+6.如有任何问题，请联系：
+*/
+
+notice_line1->setText(tr("1.使用本系统前请先到图书馆前台办理借书证并缴纳押金"));
 
 QFont font1(0,15,0);
 
 notice_line1->setFont(font1);
 
-notice_line2->setText(tr("2.。。。\n"));
+notice_line2->setText(tr("2.借书证只限本人使用，不得转让、外借，一经发现将被取消借书资格并不再归还押金\n"));
 
 QFont font2(0,15,0);
 
@@ -421,7 +400,7 @@ notice_window->resize(800,600);
 notice_window->show();
 
 }
-//注意事项
+//点击注意事项
 void MainWindow::user_register(){
 
 //检测用户是否输入了全部的信息
@@ -481,6 +460,11 @@ return;
 
 }
 //用户注册
+void MainWindow::on_register_btn_clicked()
+{
+
+}
+//点击注册按钮
 void MainWindow::user_login(){
 
 bool user_login_success_flag=0;//一开始设为零表示登录不成功
@@ -535,10 +519,40 @@ goto_ufunction_window(user_login_success_flag);//去到用户界面
 
 }
 //用户登录函数
+void MainWindow::on_user_login_btn_clicked(){
+
+    //必要的初始化
+    ulogin_window=new QWidget();
+    ulogin_name_lb=new QLabel;
+    ulogin_pwd_lb=new QLabel;
+    ulogin_name_le=new QLineEdit;
+    ulogin_pwd_le=new QLineEdit;
+    ulogin_ok_btn=new QPushButton(tr("登陆"));
+    ulogin_grid_lo=new QGridLayout;
+
+    ulogin_window->setWindowTitle(tr("login in welcome"));
+    ulogin_name_lb->setText(tr("username:"));
+    ulogin_pwd_lb->setText(tr("password:"));
+
+    ulogin_pwd_le->setEchoMode(QLineEdit::Password);
+
+    ulogin_grid_lo->addWidget(ulogin_name_lb,0,0,Qt::AlignHCenter);
+    ulogin_grid_lo->addWidget(ulogin_name_le,0,1,Qt::AlignHCenter);
+    ulogin_grid_lo->addWidget(ulogin_pwd_lb,1,0,Qt::AlignHCenter);
+    ulogin_grid_lo->addWidget(ulogin_pwd_le,1,1,Qt::AlignHCenter);
+    ulogin_grid_lo->addWidget(ulogin_ok_btn,2,2,Qt::AlignRight);
+
+    ulogin_window->setLayout(ulogin_grid_lo);
+    ulogin_window->resize(400,300);
+    ulogin_window->show();
+
+    connect(ulogin_ok_btn,SIGNAL(clicked()),this,SLOT(user_login()));
+
+}
+//点击登录按钮
 void MainWindow::ufunction_user_borrow(){
 
 //先检查这本书有没有被当前用户借过
-
 
 QSqlQuery check_query;
 
@@ -606,14 +620,50 @@ QMessageBox::critical(NULL,"Error","借阅失败，请检查您的拼写！",QMe
 
 }
 //用户借书函数
+void MainWindow::ufunction_user_return(){
+
+QSqlQuery query;
+
+bool return_ok_flag=0;
+
+query.exec("select loan_id,book_id from loan where book_id='"+ufunction_return_le->text()+"'");
+
+if(!query.isActive()){
+
+return;
+
+}
+
+if(query.next()){
+
+    QString loan_id=query.value(0).toString();
+
+    QString book_id=query.value(1).toString();
+
+    if(QString::compare(book_id,ufunction_return_le->text())==0){
+
+    return_ok_flag=1;
+
+    query.exec("update book set storage=storage+1 where book_id='"+ufunction_return_le->text()+"'");
+
+    query.exec("deletefromloanwhereloan_id='"+loan_id+"'");
+
+    //QMessageBox::about(NULL,tr("数据库反馈"),tr("归还成功，感谢您的使用"));
+    QMessageBox::about(0,tr("feedback from database"),tr("return successful"));
+
+    }
+
+    }
+}
+//用户还书函数
 bool MainWindow::createConnection()
 {
 //连接MySQL数据库
-db=QSqlDatabase::addDatabase("Local instance MYSQL Router");
+db=QSqlDatabase::addDatabase("QODBC");
 //设置主机名
 db.setHostName("localhost");
 //设置数据库名
-db.setDatabaseName("sakila");
+db.setDatabaseName("mysql");
 //设置账号名
 db.setUserName("root");
 //设置密码名
@@ -623,10 +673,13 @@ db.setPort(3306);
 
 if(!db.open())
 {
-QMessageBox::critical(0,QObject::tr("errrrorr"),db.lastError().text());
+QMessageBox::critical(0,QObject::tr("error"),db.lastError().text());
 return false;
 
 }
 return true;
 }
 //创建mysql连接
+
+
+
