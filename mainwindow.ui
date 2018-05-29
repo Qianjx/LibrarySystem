@@ -6,19 +6,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>800</width>
+    <height>600</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="register_btn">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>140</y>
+      <x>60</x>
+      <y>40</y>
       <width>111</width>
       <height>21</height>
      </rect>
@@ -27,11 +27,11 @@
      <string>注册</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="user_login_btn">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>70</y>
+      <x>60</x>
+      <y>10</y>
       <width>109</width>
       <height>23</height>
      </rect>
@@ -43,8 +43,8 @@
    <widget class="QPushButton" name="pushButton_4">
     <property name="geometry">
      <rect>
-      <x>190</x>
-      <y>70</y>
+      <x>180</x>
+      <y>10</y>
       <width>109</width>
       <height>23</height>
      </rect>
@@ -53,11 +53,11 @@
      <string>管理员登录</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_3">
+   <widget class="QPushButton" name="notice_btn">
     <property name="geometry">
      <rect>
-      <x>190</x>
-      <y>140</y>
+      <x>180</x>
+      <y>40</y>
       <width>111</width>
       <height>21</height>
      </rect>
@@ -66,13 +66,59 @@
      <string>用户须知</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="query_btn">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>160</y>
+      <width>91</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>点我查询</string>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="textEdit">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>160</y>
+      <width>104</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>160</y>
+      <width>71</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>请输入书名</string>
+    </property>
+   </widget>
+   <widget class="QListView" name="listView">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>70</y>
+      <width>256</width>
+      <height>81</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>400</width>
+     <width>800</width>
      <height>21</height>
     </rect>
    </property>
