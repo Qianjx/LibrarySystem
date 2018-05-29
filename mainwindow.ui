@@ -40,7 +40,7 @@
      <string>学生登录</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_4">
+   <widget class="QPushButton" name="admin_login_btn">
     <property name="geometry">
      <rect>
       <x>180</x>

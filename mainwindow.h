@@ -47,8 +47,8 @@ private slots:
 
 
 
-    //void on_admin_login_btn_clicked();//管理员登陆
-    //void admin_login();//管理员登陆的逻辑
+    void on_admin_login_btn_clicked();//管理员登陆
+    void admin_login();//管理员登陆的逻辑
 
     /*管理员的槽函数*/
     //void afunction_search();
@@ -66,7 +66,6 @@ private slots:
 
     void on_notice_btn_clicked();
 
-    //void on_pushButton_clicked();
 
 private:
     Ui::MainWindow *ui;

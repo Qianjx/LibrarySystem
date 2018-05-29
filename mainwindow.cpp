@@ -130,23 +130,23 @@ else{
 
     QWidget* afunction_window;
 
-   // QTextEdit* afunction_warning_txtedit;
+    QTextEdit* afunction_warning_txtedit;
 
-   // QLabel* afunction_borrow_lb;
+    QLabel* afunction_borrow_lb;
 
-   // QLabel* afunction_return_lb;
+    QLabel* afunction_return_lb;
 
-   // QLineEdit* afunction_borrow_le;
+    QLineEdit* afunction_borrow_le;
 
-   // QLineEdit* afunction_return_le;
+    QLineEdit* afunction_return_le;
 
-   // QPushButton* afunction_borrow_btn;
+    QPushButton* afunction_borrow_btn;
 
-   // QPushButton* afunction_return_btn;
+    QPushButton* afunction_return_btn;
 
-      QVBoxLayout* afunction_vblo_main;
+    QVBoxLayout* afunction_vblo_main;
 
-   // QHBoxLayout* afunction_hblo_bottom;
+    QHBoxLayout* afunction_hblo_bottom;
 
     QPushButton* afunction_add_btn;
 
@@ -293,14 +293,77 @@ connect(afunction_show_loan_btn,SIGNAL(clicked()),this,SLOT(afunction_show_loan(
 
 }
 //管理员界面
+void MainWindow::on_admin_login_btn_clicked()
+{
+    //必要的初始化
+    alogin_window=new QWidget();
+    alogin_welcome_lb=new QLabel;
+    alogin_n_lb=new QLabel;
+    alogin_name_lb=new QLabel;
+    alogin_pwd_lb=new QLabel;
+    alogin_name_le=new QLineEdit;
+    alogin_pwd_le=new QLineEdit;
+    alogin_ok_btn=new QPushButton(tr("登陆"));
+    alogin_grid_lo=new QGridLayout;
+
+    alogin_window->setWindowTitle(tr("管理员登录对话框"));
+    alogin_welcome_lb->setText(tr("嘿嘿嘿，欢迎管理员大大(●'◡'●)ﾉ♥"));
+    alogin_n_lb->setText("\n");
+    alogin_name_lb->setText(tr("请输入管理员名称:"));
+    alogin_pwd_lb->setText(tr("请输入密码:"));
+
+    alogin_pwd_le->setEchoMode(QLineEdit::Password);
+
+    alogin_grid_lo->addWidget(alogin_welcome_lb,0,0,Qt::AlignLeft);
+    alogin_grid_lo->addWidget(alogin_n_lb,0,1,Qt::AlignLeft);
+    alogin_grid_lo->addWidget(alogin_name_lb,1,0,Qt::AlignLeft);
+    alogin_grid_lo->addWidget(alogin_name_le,1,1,Qt::AlignHCenter);
+    alogin_grid_lo->addWidget(alogin_pwd_lb,2,0,Qt::AlignLeft);
+    alogin_grid_lo->addWidget(alogin_pwd_le,2,1,Qt::AlignHCenter);
+    alogin_grid_lo->addWidget(alogin_ok_btn,3,2,Qt::AlignRight);
+
+    alogin_window->setLayout(alogin_grid_lo);
+    alogin_window->resize(400,300);
+    alogin_window->show();
+
+    connect(alogin_ok_btn,SIGNAL(clicked()),this,SLOT(admin_login()));
+}
+//管理员登录按钮
+void MainWindow::admin_login(){
+    bool admin_login_success_flag=0;
+    QSqlQuery query;
+
+    //根据用户输入的用户名，在manager表中查询其密码
+    query.exec("select password from manager where manager_name = '"+alogin_name_le->text()+"'");
+    if(!query.isActive()){
+        return;
+    }
+
+    //判断密码是否与结果一致
+    if(query.next()){
+        QString admin_pwd = query.value(0).toString();
+        if(QString::compare(admin_pwd,alogin_pwd_le->text())==0){
+            admin_login_success_flag=1;
+            alogin_window->close();
+        }
+        else{
+            QMessageBox::critical(NULL, "Error", "密码错误",QMessageBox::Yes);
+            return;
+        }
+    }
+
+    //如果数据库中没有此用户名，给出警告
+    else{
+        QMessageBox::critical(NULL, "Error","管理员不存在",QMessageBox::Yes);
+        return;
+    }
+    goto_afunction_window(admin_login_success_flag);//去到管理员界面
+}
+//管理员登录
 void MainWindow::on_query_btn_clicked(){
-
-//QString book_name=ui->->text();
-
-//model->setFilter(QString("book_name='%1'").arg(book_name));
-
-model->select();
-
+    //QString book_name=ui->name_lineEdit->text();
+    //model->setFilter(QString("book_name='%1'").arg(book_name));
+    //model->select();
 }
 //点击查询按钮
 void MainWindow::on_notice_btn_clicked(){
@@ -462,7 +525,43 @@ return;
 //用户注册
 void MainWindow::on_register_btn_clicked()
 {
+    //必要的初始化
+    register_window=new QWidget();
+    register_notice_lb=new QLabel;
+    register_name_lb=new QLabel;
+    register_pwd_lb=new QLabel;
+    register_pwd_check_lb=new QLabel;
+    register_name_le=new QLineEdit;
+    register_pwd_le=new QLineEdit;
+    register_pwd_check_le=new QLineEdit;
+    register_ok_btn=new QPushButton(tr("确定"));
+    register_grid_lo=new QGridLayout;
 
+    //文字提示
+    register_window->setWindowTitle(tr("register"));
+    register_notice_lb->setText(tr("only available after register^_^"));
+    register_name_lb->setText(tr("username:"));
+    register_pwd_lb->setText(tr("password:"));
+    register_pwd_check_lb->setText(tr("password again:"));
+
+    register_pwd_le->setEchoMode(QLineEdit::Password);
+    register_pwd_check_le->setEchoMode(QLineEdit::Password);
+
+    //采用网格布局
+    register_grid_lo->addWidget(register_notice_lb,0,0,Qt::AlignHCenter);
+    register_grid_lo->addWidget(register_name_lb,1,0,Qt::AlignHCenter);
+    register_grid_lo->addWidget(register_name_le,1,1,Qt::AlignHCenter);
+    register_grid_lo->addWidget(register_pwd_lb,2,0,Qt::AlignHCenter);
+    register_grid_lo->addWidget(register_pwd_le,2,1,Qt::AlignHCenter);
+    register_grid_lo->addWidget(register_pwd_check_lb,3,0,Qt::AlignHCenter);
+    register_grid_lo->addWidget(register_pwd_check_le,3,1,Qt::AlignHCenter);
+    register_grid_lo->addWidget(register_ok_btn,4,0,Qt::AlignRight);
+
+    register_window->setLayout(register_grid_lo);
+    register_window->resize(400,300);
+    register_window->show();
+
+    connect(register_ok_btn,SIGNAL(clicked()),this,SLOT(user_register()));
 }
 //点击注册按钮
 void MainWindow::user_login(){
@@ -680,6 +779,4 @@ return false;
 return true;
 }
 //创建mysql连接
-
-
 
