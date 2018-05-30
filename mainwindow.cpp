@@ -328,7 +328,7 @@ void MainWindow::on_admin_login_btn_clicked()
 
     connect(alogin_ok_btn,SIGNAL(clicked()),this,SLOT(admin_login()));
 }
-//管理员登录按钮
+//点击管理员登录按钮
 void MainWindow::admin_login(){
     bool admin_login_success_flag=0;
     QSqlQuery query;
@@ -359,7 +359,7 @@ void MainWindow::admin_login(){
     }
     goto_afunction_window(admin_login_success_flag);//去到管理员界面
 }
-//管理员登录
+//管理员登录函数
 void MainWindow::on_query_btn_clicked(){
     //QString book_name=ui->name_lineEdit->text();
     //model->setFilter(QString("book_name='%1'").arg(book_name));
@@ -617,7 +617,7 @@ return;
 goto_ufunction_window(user_login_success_flag);//去到用户界面
 
 }
-//用户登录函数
+//用户用户登录函数
 void MainWindow::on_user_login_btn_clicked(){
 
     //必要的初始化
