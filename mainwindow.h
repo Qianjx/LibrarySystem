@@ -48,17 +48,17 @@ private slots:
 
 
     void on_admin_login_btn_clicked();//管理员登陆
-    void admin_login();//管理员登陆的逻辑
+    void admin_login();//管理员登录
 
     /*管理员的槽函数*/
-    //void afunction_search();
-    //void afunction_delete();
-    //void afunction_show_all();
-    //void afunction_sort();
-    //void afunction_add();
-    //void afunction_add_submit();
-    //void afunction_show_user();
-    //void afunction_show_loan();
+    void afunction_search();
+    void afunction_delete();
+    void afunction_show_all();
+    void afunction_sort();
+    void afunction_add();
+    void afunction_add_submit();
+    void afunction_show_user();
+    void afunction_show_loan();
 
     /*以下都是用户的槽函数*/
     void ufunction_user_borrow();

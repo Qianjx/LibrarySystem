@@ -360,6 +360,70 @@ void MainWindow::admin_login(){
     goto_afunction_window(admin_login_success_flag);//去到管理员界面
 }
 //管理员登录函数
+//查询
+void MainWindow::afunction_search()
+{
+    QString book_name=afunction_search_le->text();
+    afunction_tablemodel->setFilter(QString("book_name='%1'").arg(book_name));
+    afunction_tablemodel->select();
+}
+//删除
+void MainWindow::afunction_delete(){
+    int cur_row=afunction_tableview->currentIndex().row();
+    int ok=QMessageBox::warning(this,tr("删除这个用户"),tr("您确定删除当前行吗？"),
+                                QMessageBox::Yes,QMessageBox::No);
+    if(ok==QMessageBox::Yes){
+        afunction_tablemodel->removeRow(cur_row);
+        afunction_tablemodel->submitAll();
+    }
+    else
+        return;
+}
+//显示所有图书
+void MainWindow::afunction_show_all(){
+    afunction_tablemodel->setTable("book");
+    afunction_tablemodel->select();
+}
+//显示user表
+void MainWindow::afunction_show_user(){
+    afunction_tablemodel->setTable("user");
+    afunction_tablemodel->select();
+}
+//显示loan表
+void MainWindow::afunction_show_loan(){
+    afunction_tablemodel->setTable("loan");
+    afunction_tablemodel->select();
+}
+//添加书籍
+void MainWindow::afunction_add(){
+    int row_num=afunction_tablemodel->rowCount();
+    QString book_id;
+    afunction_tablemodel->insertRow(row_num);
+    afunction_tablemodel->setData(afunction_tablemodel->index(row_num,0),book_id);
+    //afunction_tablemodel->submitAll();
+}
+//提交添加书籍的修改
+void MainWindow::afunction_add_submit(){
+    afunction_tablemodel->database().transaction();
+    if(afunction_tablemodel->submitAll()){
+        if(afunction_tablemodel->database().commit())
+            QMessageBox::information(this,tr("数据库反馈"),tr("书籍入库成功"));
+            QMessageBox::about(0,"mybms",tr("书籍入库成功！"));
+    }
+    else{
+        afunction_tablemodel->database().rollback();
+        QMessageBox::warning(this,tr("数据库反馈"),
+                             tr("发生错误:%1").arg(afunction_tablemodel->lastError().text()),
+                             QMessageBox::Ok);
+    }
+
+}
+//排序
+void MainWindow::afunction_sort(){
+    afunction_tablemodel->setSort(5,Qt::AscendingOrder);
+    afunction_tablemodel->select();
+}
+
 void MainWindow::on_query_btn_clicked(){
     //QString book_name=ui->name_lineEdit->text();
     //model->setFilter(QString("book_name='%1'").arg(book_name));
