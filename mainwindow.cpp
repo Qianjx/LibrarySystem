@@ -425,9 +425,9 @@ void MainWindow::afunction_sort(){
 }
 
 void MainWindow::on_query_btn_clicked(){
-    //QString book_name=ui->name_lineEdit->text();
-    //model->setFilter(QString("book_name='%1'").arg(book_name));
-    //model->select();
+    QString book_name=ui->name_lineEdit->text();
+    model->setFilter(QString("book_name='%1'").arg(book_name));
+    model->select();
 }
 //点击查询按钮
 void MainWindow::on_notice_btn_clicked(){
