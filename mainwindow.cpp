@@ -14,11 +14,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
     model=new QSqlTableModel(this);
     model->setTable("book");
+    ui->show_tableView->setModel(model);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+    db.removeDatabase("mybms");
 }
 
 
@@ -65,7 +67,7 @@ ufunction_warning_txtedit->setText(tr("尊敬的用户，为了您和他人的�
 										"\n"
                                         "2.不得重复借同一本书"
                                         "\n"
-                                        "3.遵守以上两条规定"
+                                        "3.不得损坏图书"
                                       ));
 
 ufunction_borrow_lb->setText(tr("输入需要借阅的书籍编号："));
@@ -102,7 +104,7 @@ ufunction_vblo_main->addLayout(ufunction_hblo_bottom);
 
 ufunction_window->setLayout(ufunction_vblo_main);
 
-ufunction_window->resize(800,600);
+ufunction_window->resize(400,400);
 
 ufunction_window->show();
 
@@ -188,14 +190,14 @@ afunction_delete_btn=new QPushButton(tr("删除用户"));
 afunction_search_btn=new QPushButton(tr("搜索图书"));
 //搜索图书
 
-afunction_show_all_btn=new QPushButton(tr("all"));
+afunction_show_all_btn=new QPushButton(tr("所有图书"));
 //显示所有书籍
 
-afunction_show_order_btn=new QPushButton(tr("order"));
+afunction_show_order_btn=new QPushButton(tr("按顺序排列"));
 
-afunction_show_user_btn=new QPushButton(tr("user"));
+afunction_show_user_btn=new QPushButton(tr("所有用户"));
 
-afunction_show_loan_btn=new QPushButton(tr("loan"));
+afunction_show_loan_btn=new QPushButton(tr("所有借阅"));
 
 afunction_search_le=new QLineEdit;
 
@@ -303,7 +305,7 @@ void MainWindow::on_admin_login_btn_clicked()
     alogin_pwd_lb=new QLabel;
     alogin_name_le=new QLineEdit;
     alogin_pwd_le=new QLineEdit;
-    alogin_ok_btn=new QPushButton(tr("登陆"));
+    alogin_ok_btn=new QPushButton(tr("登录"));
     alogin_grid_lo=new QGridLayout;
 
     alogin_window->setWindowTitle(tr("管理员登录对话框"));
@@ -360,14 +362,14 @@ void MainWindow::admin_login(){
     goto_afunction_window(admin_login_success_flag);//去到管理员界面
 }
 //管理员登录函数
-//查询
+//查询图书
 void MainWindow::afunction_search()
 {
     QString book_name=afunction_search_le->text();
     afunction_tablemodel->setFilter(QString("book_name='%1'").arg(book_name));
     afunction_tablemodel->select();
 }
-//删除
+//删除用户
 void MainWindow::afunction_delete(){
     int cur_row=afunction_tableview->currentIndex().row();
     int ok=QMessageBox::warning(this,tr("删除这个用户"),tr("您确定删除当前行吗？"),
@@ -472,31 +474,31 @@ QFont font1(0,15,0);
 
 notice_line1->setFont(font1);
 
-notice_line2->setText(tr("2.借书证只限本人使用，不得转让、外借，一经发现将被取消借书资格并不再归还押金\n"));
+notice_line2->setText(tr("2.借书证只限本人使用，不得转让、外借，一经发现将被取消借书资格并不再归还押金"));
 
 QFont font2(0,15,0);
 
 notice_line2->setFont(font2);
 
-notice_line3->setText(tr("3.。。。\n"));
+notice_line3->setText(tr("3.借书有效期限是30天，从结束当天开始计算,超过会取消您的借书资格"));
 
 QFont font3(0,15,0);
 
 notice_line3->setFont(font3);
 
-notice_line4->setText(tr("4.。。。\n"));
+//notice_line4->setText(tr("4.。。。\n"));
 
-QFont font4(0,15,0);
+//QFont font4(0,15,0);
 
-notice_line4->setFont(font4);
+//notice_line4->setFont(font4);
 
-notice_line5->setText(tr("5.。。。\n"));
+//notice_line5->setText(tr("5.。。。\n"));
 
-QFont font5(0,15,0);
+//QFont font5(0,15,0);
 
-notice_line5->setFont(font5);
+//notice_line5->setFont(font5);
 
-notice_line6->setText(tr("6.如有任何问题，请联系：xxx\n"));
+notice_line6->setText(tr("如有任何问题，请联系：PB15151800 钱劲翔\n"));
 
 QFont font6(0,15,0);
 
@@ -690,7 +692,7 @@ void MainWindow::on_user_login_btn_clicked(){
     ulogin_pwd_lb=new QLabel;
     ulogin_name_le=new QLineEdit;
     ulogin_pwd_le=new QLineEdit;
-    ulogin_ok_btn=new QPushButton(tr("登陆"));
+    ulogin_ok_btn=new QPushButton(tr("登录"));
     ulogin_grid_lo=new QGridLayout;
 
     ulogin_window->setWindowTitle(tr("login in welcome"));
