@@ -498,7 +498,7 @@ notice_line3->setFont(font3);
 
 //notice_line5->setFont(font5);
 
-notice_line6->setText(tr("如有任何问题，请联系：PB15151800 钱劲翔\n"));
+notice_line6->setText(tr("如有任何问题，请联系：PB15151800 \n"));
 
 QFont font6(0,15,0);
 
@@ -832,7 +832,7 @@ db.setDatabaseName("mybms");
 //设置账号名
 db.setUserName("root");
 //设置密码名
-db.setPassword("740832Qjx");
+db.setPassword("******");
 //设置端口
 db.setPort(3306);
 
